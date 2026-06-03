@@ -1,38 +1,53 @@
 {
-  "name": "devpulse",
+  "name": "devpulse-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Developer Productivity Intelligence API using Node.js, Express, PostgreSQL, Redis, GitHub OAuth, Webhooks, Docker, and Swagger.",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:init": "node src/db/initDb.js",
+    "test": "echo \"No tests added yet\" && exit 0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "keywords": [
+    "nodejs",
+    "express",
+    "postgresql",
+    "redis",
+    "github-api",
+    "github-oauth",
+    "webhooks",
+    "swagger",
+    "docker",
+    "backend",
+    "analytics",
+    "developer-tools"
+  ],
+  "author": "Akshay Raavi",
+  "license": "MIT",
   "dependencies": {
-    "axios": "^1.16.1",
+    "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
     "helmet": "^8.2.0",
-    "jsonwebtoken": "^9.0.3",
-    "morgan": "^1.10.1",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.11.0",
     "node-cron": "^4.2.1",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
-    "pg": "^8.21.0",
-    "redis": "^6.0.0",
-    "swagger-jsdoc": "^6.3.0",
+    "pg": "^8.16.3",
+    "redis": "^5.10.0",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "zod": "^4.4.3"
+    "zod": "^4.1.13"
   },
   "devDependencies": {
-    "eslint": "^10.4.1",
-    "jest": "^30.4.2",
-    "nodemon": "^3.1.14",
-    "prettier": "^3.8.3",
-    "supertest": "^7.2.2"
+    "eslint": "^9.39.1",
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
+    "prettier": "^3.6.2",
+    "supertest": "^7.1.4"
   }
 }

@@ -43,6 +43,17 @@ DevPulse solves this by collecting GitHub activity and converting it into meanin
 
 ---
 
+## Day 2 Progress
+
+- Added PostgreSQL database using Docker
+- Created production-style relational database schema
+- Added database connection using `pg`
+- Added database initialization script
+- Added health check endpoint with database connectivity status
+- Created tables for users, repositories, commits, pull requests, reviews, weekly reports, and webhook events
+
+---
+
 ## Current API Endpoints
 
 ### Health Check
