@@ -54,9 +54,29 @@ DevPulse solves this by collecting GitHub activity and converting it into meanin
 
 ---
 
-## Current API Endpoints
+## Day 3 Progress
+
+- Created GitHub OAuth App for local authentication
+- Integrated Passport.js with GitHub OAuth strategy
+- Added GitHub login and callback routes
+- Saved authenticated GitHub users into PostgreSQL
+- Generated JWT token after successful GitHub login
+- Added protected `/api/auth/me` route
+- Added logout endpoint for client-side token removal
+
+---
+
+## Authentication Endpoints
+
+| Method | Endpoint                    | Description                |
+| ------ | --------------------------- | -------------------------- |
+| GET    | `/api/auth/github`          | Start GitHub OAuth login   |
+| GET    | `/api/auth/github/callback` | GitHub OAuth callback      |
+| GET    | `/api/auth/me`              | Get logged-in user profile |
+| POST   | `/api/auth/logout`          | Logout user on client side |
 
 ### Health Check
 
 ```http
 GET /api/health
+```
