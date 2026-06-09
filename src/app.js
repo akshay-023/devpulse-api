@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const { passport } = require("./config/passport");
 const healthRoutes = require("./routes/healthRoutes");
 const authRoutes = require("./routes/authRoutes");
+const githubRoutes = require("./routes/githubRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(passport.initialize());
 
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/github", githubRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({

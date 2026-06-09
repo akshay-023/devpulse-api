@@ -66,14 +66,39 @@ DevPulse solves this by collecting GitHub activity and converting it into meanin
 
 ---
 
-## Authentication Endpoints
+### Day 4 — GitHub Data Sync
 
-| Method | Endpoint                    | Description                |
-| ------ | --------------------------- | -------------------------- |
-| GET    | `/api/auth/github`          | Start GitHub OAuth login   |
-| GET    | `/api/auth/github/callback` | GitHub OAuth callback      |
-| GET    | `/api/auth/me`              | Get logged-in user profile |
-| POST   | `/api/auth/logout`          | Logout user on client side |
+- Added GitHub REST API integration using authenticated OAuth access token
+- Created GitHub service layer using Axios
+- Synced authenticated user repositories into PostgreSQL
+- Synced recent commits from GitHub repositories
+- Synced pull request data from GitHub repositories
+- Added protected GitHub data endpoints
+- Added database-backed repository, commit, and pull request retrieval APIs
+
+---
+
+## API Endpoints
+
+### Authentication Endpoints
+
+| Method | Endpoint                    | Description                          |
+| ------ | --------------------------- | ------------------------------------ |
+| GET    | `/api/auth/github`          | Start GitHub OAuth login             |
+| GET    | `/api/auth/github/callback` | GitHub OAuth callback                |
+| GET    | `/api/auth/me`              | Get logged-in user profile using JWT |
+| POST   | `/api/auth/logout`          | Logout user on client side           |
+
+---
+
+### GitHub Data Endpoints
+
+| Method | Endpoint                    | Description                                               |
+| ------ | --------------------------- | --------------------------------------------------------- |
+| POST   | `/api/github/sync`          | Sync repositories, commits, and pull requests from GitHub |
+| GET    | `/api/github/repos`         | Get synced repositories from PostgreSQL                   |
+| GET    | `/api/github/commits`       | Get synced commits from PostgreSQL                        |
+| GET    | `/api/github/pull-requests` | Get synced pull requests from PostgreSQL                  |
 
 ### Health Check
 
