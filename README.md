@@ -66,7 +66,7 @@ DevPulse solves this by collecting GitHub activity and converting it into meanin
 
 ---
 
-### Day 4 — GitHub Data Sync
+## Day 4 Progress
 
 - Added GitHub REST API integration using authenticated OAuth access token
 - Created GitHub service layer using Axios
@@ -75,6 +75,17 @@ DevPulse solves this by collecting GitHub activity and converting it into meanin
 - Synced pull request data from GitHub repositories
 - Added protected GitHub data endpoints
 - Added database-backed repository, commit, and pull request retrieval APIs
+
+---
+
+## Day 5 Progress
+
+- Added Redis connection using the official Redis Node.js client
+- Created reusable cache service for get, set, delete, and pattern-based invalidation
+- Added Redis caching for GitHub repositories, commits, and pull requests
+- Added cache hit and cache miss logging
+- Added cache invalidation after fresh GitHub sync
+- Updated health check endpoint to include Redis cache status
 
 ---
 
@@ -89,8 +100,6 @@ DevPulse solves this by collecting GitHub activity and converting it into meanin
 | GET    | `/api/auth/me`              | Get logged-in user profile using JWT |
 | POST   | `/api/auth/logout`          | Logout user on client side           |
 
----
-
 ### GitHub Data Endpoints
 
 | Method | Endpoint                    | Description                                               |
@@ -104,4 +113,22 @@ DevPulse solves this by collecting GitHub activity and converting it into meanin
 
 ```http
 GET /api/health
+```
+
+## Redis Caching Strategy
+
+DevPulse uses Redis to cache frequently requested GitHub data and reduce repeated database/API work.
+
+| Resource      | Cache Key Pattern                    | TTL        |
+| ------------- | ------------------------------------ | ---------- |
+| Repositories  | `user:{userId}:github:repos`         | 1 hour     |
+| Commits       | `user:{userId}:github:commits`       | 30 minutes |
+| Pull Requests | `user:{userId}:github:pull-requests` | 30 minutes |
+
+Cached endpoints return a `source` field:
+
+```json
+{
+  "source": "cache"
+}
 ```

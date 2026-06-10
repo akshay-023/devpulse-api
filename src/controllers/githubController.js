@@ -5,14 +5,33 @@ const {
   getUserPullRequests,
 } = require("../services/githubService");
 
+const {
+  getCache,
+  setCache,
+  deleteCacheByPattern,
+  buildUserCacheKey,
+} = require("../services/cacheService");
+
+const CACHE_TTL = {
+  REPOSITORIES: 60 * 60, // 1 hour
+  COMMITS: 30 * 60, // 30 minutes
+  PULL_REQUESTS: 30 * 60, // 30 minutes
+};
+
 const syncGitHub = async (req, res) => {
   try {
     const summary = await syncGitHubData(req.user.id);
+
+    await deleteCacheByPattern(`user:${req.user.id}:github:*`);
 
     res.status(200).json({
       status: "success",
       message: "GitHub data sync completed",
       summary,
+      cache: {
+        invalidated: true,
+        reason: "Fresh GitHub data synced",
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -25,10 +44,26 @@ const syncGitHub = async (req, res) => {
 
 const getRepositories = async (req, res) => {
   try {
+    const cacheKey = buildUserCacheKey(req.user.id, "github:repos");
+
+    const cachedRepositories = await getCache(cacheKey);
+
+    if (cachedRepositories) {
+      return res.status(200).json({
+        status: "success",
+        source: "cache",
+        count: cachedRepositories.length,
+        repositories: cachedRepositories,
+      });
+    }
+
     const repositories = await getUserRepositories(req.user.id);
+
+    await setCache(cacheKey, repositories, CACHE_TTL.REPOSITORIES);
 
     res.status(200).json({
       status: "success",
+      source: "database",
       count: repositories.length,
       repositories,
     });
@@ -43,10 +78,26 @@ const getRepositories = async (req, res) => {
 
 const getCommits = async (req, res) => {
   try {
+    const cacheKey = buildUserCacheKey(req.user.id, "github:commits");
+
+    const cachedCommits = await getCache(cacheKey);
+
+    if (cachedCommits) {
+      return res.status(200).json({
+        status: "success",
+        source: "cache",
+        count: cachedCommits.length,
+        commits: cachedCommits,
+      });
+    }
+
     const commits = await getUserCommits(req.user.id);
+
+    await setCache(cacheKey, commits, CACHE_TTL.COMMITS);
 
     res.status(200).json({
       status: "success",
+      source: "database",
       count: commits.length,
       commits,
     });
@@ -61,10 +112,26 @@ const getCommits = async (req, res) => {
 
 const getPullRequests = async (req, res) => {
   try {
+    const cacheKey = buildUserCacheKey(req.user.id, "github:pull-requests");
+
+    const cachedPullRequests = await getCache(cacheKey);
+
+    if (cachedPullRequests) {
+      return res.status(200).json({
+        status: "success",
+        source: "cache",
+        count: cachedPullRequests.length,
+        pullRequests: cachedPullRequests,
+      });
+    }
+
     const pullRequests = await getUserPullRequests(req.user.id);
+
+    await setCache(cacheKey, pullRequests, CACHE_TTL.PULL_REQUESTS);
 
     res.status(200).json({
       status: "success",
+      source: "database",
       count: pullRequests.length,
       pullRequests,
     });
