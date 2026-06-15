@@ -89,6 +89,19 @@ DevPulse solves this by collecting GitHub activity and converting it into meanin
 
 ---
 
+## Day 6 Progress
+
+- Added analytics service layer for commit, pull request, productivity, and burnout calculations
+- Built commit statistics including total commits, additions, deletions, and code churn ratio
+- Added commit heatmap data grouped by day and hour
+- Added pull request analytics including open, closed, merged, and average merge time
+- Created productivity score calculation using commit volume, PR merge time, and work pattern signals
+- Created burnout risk scoring using late-night activity, weekend activity, and commit trend drop
+- Added Redis caching for analytics endpoints
+- Added protected analytics API routes
+
+---
+
 ## API Endpoints
 
 ### Authentication Endpoints
@@ -132,3 +145,12 @@ Cached endpoints return a `source` field:
   "source": "cache"
 }
 ```
+
+### Analytics Endpoints
+
+| Method | Endpoint                         | Description                                  |
+| ------ | -------------------------------- | -------------------------------------------- |
+| GET    | `/api/analytics/overview`        | Get combined productivity analytics overview |
+| GET    | `/api/analytics/commits/heatmap` | Get commit statistics and heatmap data       |
+| GET    | `/api/analytics/pull-requests`   | Get pull request analytics                   |
+| GET    | `/api/analytics/burnout-risk`    | Get burnout risk score and recommendations   |

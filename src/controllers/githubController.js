@@ -23,6 +23,7 @@ const syncGitHub = async (req, res) => {
     const summary = await syncGitHubData(req.user.id);
 
     await deleteCacheByPattern(`user:${req.user.id}:github:*`);
+    await deleteCacheByPattern(`user:${req.user.id}:analytics:*`);
 
     res.status(200).json({
       status: "success",
